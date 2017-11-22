@@ -6,18 +6,18 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.bluerocket.callernotse.db.AppDatabase;
-import com.bluerocket.callernotse.models.BorrowModel;
+import com.bluerocket.callernotse.models.NoteModel;
 
 import java.util.List;
 
 
-public class BorrowedListViewModel extends AndroidViewModel {
+public class NoteListViewModel extends AndroidViewModel {
 
-    private final LiveData<List<BorrowModel>> itemAndPersonList;
+    private final LiveData<List<NoteModel>> itemAndPersonList;
 
     private AppDatabase appDatabase;
 
-    public BorrowedListViewModel(Application application) {
+    public NoteListViewModel(Application application) {
         super(application);
 
         appDatabase = AppDatabase.getDatabase(this.getApplication());
@@ -26,15 +26,15 @@ public class BorrowedListViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<List<BorrowModel>> getItemAndPersonList() {
+    public LiveData<List<NoteModel>> getItemAndPersonList() {
         return itemAndPersonList;
     }
 
-    public void deleteItem(BorrowModel borrowModel) {
-        new deleteAsyncTask(appDatabase).execute(borrowModel);
+    public void deleteItem(NoteModel noteModel) {
+        new deleteAsyncTask(appDatabase).execute(noteModel);
     }
 
-    private static class deleteAsyncTask extends AsyncTask<BorrowModel, Void, Void> {
+    private static class deleteAsyncTask extends AsyncTask<NoteModel, Void, Void> {
 
         private AppDatabase db;
 
@@ -43,7 +43,7 @@ public class BorrowedListViewModel extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(final BorrowModel... params) {
+        protected Void doInBackground(final NoteModel... params) {
             db.itemAndPersonModel().deleteBorrow(params[0]);
             return null;
         }

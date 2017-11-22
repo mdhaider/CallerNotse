@@ -9,7 +9,7 @@ import com.bluerocket.callernotse.converter.DateConverter;
 import java.util.Date;
 
 @Entity
-public class BorrowModel {
+public class NoteModel {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -18,7 +18,7 @@ public class BorrowModel {
     @TypeConverters(DateConverter.class)
     private Date borrowDate;
 
-    public BorrowModel(String itemName, String personName, Date borrowDate) {
+    public NoteModel(String itemName, String personName, Date borrowDate) {
         this.itemName = itemName;
         this.personName = personName;
         this.borrowDate = borrowDate;

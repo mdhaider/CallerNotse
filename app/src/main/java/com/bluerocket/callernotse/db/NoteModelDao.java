@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 
 import com.bluerocket.callernotse.converter.DateConverter;
-import com.bluerocket.callernotse.models.BorrowModel;
+import com.bluerocket.callernotse.models.NoteModel;
 
 import java.util.List;
 
@@ -16,18 +16,18 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 @Dao
 @TypeConverters(DateConverter.class)
-public interface BorrowModelDao {
+public interface NoteModelDao {
 
-    @Query("select * from BorrowModel")
-    LiveData<List<BorrowModel>> getAllBorrowedItems();
+    @Query("select * from NoteModel")
+    LiveData<List<NoteModel>> getAllBorrowedItems();
 
-    @Query("select * from BorrowModel where id = :id")
-    BorrowModel getItembyId(String id);
+    @Query("select * from NoteModel where id = :id")
+    NoteModel getItembyId(String id);
 
     @Insert(onConflict = REPLACE)
-    void addBorrow(BorrowModel borrowModel);
+    void addBorrow(NoteModel noteModel);
 
     @Delete
-    void deleteBorrow(BorrowModel borrowModel);
+    void deleteBorrow(NoteModel noteModel);
 
 }

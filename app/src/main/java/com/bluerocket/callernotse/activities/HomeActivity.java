@@ -13,15 +13,15 @@ import android.view.View;
 
 import com.bluerocket.callernotse.R;
 import com.bluerocket.callernotse.adapters.RecyclerViewAdapter;
-import com.bluerocket.callernotse.models.BorrowModel;
-import com.bluerocket.callernotse.viewmodel.BorrowedListViewModel;
+import com.bluerocket.callernotse.models.NoteModel;
+import com.bluerocket.callernotse.viewmodel.NoteListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnLongClickListener {
+public class HomeActivity extends AppCompatActivity implements View.OnLongClickListener {
 
-    private BorrowedListViewModel viewModel;
+    private NoteListViewModel viewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView recyclerView;
 
@@ -35,22 +35,22 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AddActivity.class));
+                startActivity(new Intent(HomeActivity.this, AddNoteActivity.class));
             }
         });
 
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<BorrowModel>(), this);
+        recyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<NoteModel>(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setAdapter(recyclerViewAdapter);
 
-        viewModel = ViewModelProviders.of(this).get(BorrowedListViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(NoteListViewModel.class);
 
-        viewModel.getItemAndPersonList().observe(MainActivity.this, new Observer<List<BorrowModel>>() {
+        viewModel.getItemAndPersonList().observe(HomeActivity.this, new Observer<List<NoteModel>>() {
             @Override
-            public void onChanged(@Nullable List<BorrowModel> itemAndPeople) {
+            public void onChanged(@Nullable List<NoteModel> itemAndPeople) {
                 recyclerViewAdapter.addItems(itemAndPeople);
             }
         });
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
 
     @Override
     public boolean onLongClick(View v) {
-        BorrowModel borrowModel = (BorrowModel) v.getTag();
-        viewModel.deleteItem(borrowModel);
+        NoteModel noteModel = (NoteModel) v.getTag();
+        viewModel.deleteItem(noteModel);
         return true;
     }
 }

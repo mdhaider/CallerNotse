@@ -5,9 +5,9 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.bluerocket.callernotse.models.BorrowModel;
+import com.bluerocket.callernotse.models.NoteModel;
 
-@Database(entities = {BorrowModel.class}, version = 1)
+@Database(entities = {NoteModel.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -15,7 +15,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "borrow_db")
+                    Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "note_db")
                             .build();
         }
         return INSTANCE;
@@ -25,6 +25,6 @@ public abstract class AppDatabase extends RoomDatabase {
         INSTANCE = null;
     }
 
-    public abstract BorrowModelDao itemAndPersonModel();
+    public abstract NoteModelDao itemAndPersonModel();
 
 }

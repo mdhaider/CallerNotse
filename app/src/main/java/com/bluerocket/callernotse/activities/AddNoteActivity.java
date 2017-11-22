@@ -12,14 +12,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bluerocket.callernotse.R;
-import com.bluerocket.callernotse.models.BorrowModel;
-import com.bluerocket.callernotse.viewmodel.AddBorrowViewModel;
+import com.bluerocket.callernotse.models.NoteModel;
+import com.bluerocket.callernotse.viewmodel.AddNoteViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class AddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddNoteActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private Date date;
     private DatePickerDialog datePickerDialog;
@@ -28,7 +28,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     private EditText itemEditText;
     private EditText nameEditText;
 
-    private AddBorrowViewModel addBorrowViewModel;
+    private AddNoteViewModel addNoteViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +41,18 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         nameEditText = findViewById(R.id.personName);
 
         calendar = Calendar.getInstance();
-        addBorrowViewModel = ViewModelProviders.of(this).get(AddBorrowViewModel.class);
+        addNoteViewModel = ViewModelProviders.of(this).get(AddNoteViewModel.class);
 
-        datePickerDialog = new DatePickerDialog(this, AddActivity.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog = new DatePickerDialog(this, AddNoteActivity.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (itemEditText.getText() == null || nameEditText.getText() == null || date == null)
-                    Toast.makeText(AddActivity.this, "Missing fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddNoteActivity.this, "Missing fields", Toast.LENGTH_SHORT).show();
                 else {
-                    addBorrowViewModel.addBorrow(new BorrowModel(
+                    addNoteViewModel.addBorrow(new NoteModel(
                             itemEditText.getText().toString(),
                             nameEditText.getText().toString(),
                             date

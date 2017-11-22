@@ -5,24 +5,24 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.os.AsyncTask;
 
 import com.bluerocket.callernotse.db.AppDatabase;
-import com.bluerocket.callernotse.models.BorrowModel;
+import com.bluerocket.callernotse.models.NoteModel;
 
-public class AddBorrowViewModel extends AndroidViewModel {
+public class AddNoteViewModel extends AndroidViewModel {
 
     private AppDatabase appDatabase;
 
-    public AddBorrowViewModel(Application application) {
+    public AddNoteViewModel(Application application) {
         super(application);
 
         appDatabase = AppDatabase.getDatabase(this.getApplication());
 
     }
 
-    public void addBorrow(final BorrowModel borrowModel) {
-        new addAsyncTask(appDatabase).execute(borrowModel);
+    public void addBorrow(final NoteModel noteModel) {
+        new addAsyncTask(appDatabase).execute(noteModel);
     }
 
-    private static class addAsyncTask extends AsyncTask<BorrowModel, Void, Void> {
+    private static class addAsyncTask extends AsyncTask<NoteModel, Void, Void> {
 
         private AppDatabase db;
 
@@ -31,7 +31,7 @@ public class AddBorrowViewModel extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(final BorrowModel... params) {
+        protected Void doInBackground(final NoteModel... params) {
             db.itemAndPersonModel().addBorrow(params[0]);
             return null;
         }

@@ -7,18 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bluerocket.callernotse.R;
-import com.bluerocket.callernotse.models.BorrowModel;
+import com.bluerocket.callernotse.models.NoteModel;
 
 import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    private List<BorrowModel> borrowModelList;
+    private List<NoteModel> noteModelList;
     private View.OnLongClickListener longClickListener;
 
-    public RecyclerViewAdapter(List<BorrowModel> borrowModelList, View.OnLongClickListener longClickListener) {
-        this.borrowModelList = borrowModelList;
+    public RecyclerViewAdapter(List<NoteModel> noteModelList, View.OnLongClickListener longClickListener) {
+        this.noteModelList = noteModelList;
         this.longClickListener = longClickListener;
     }
 
@@ -30,21 +30,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, int position) {
-        BorrowModel borrowModel = borrowModelList.get(position);
-        holder.itemTextView.setText(borrowModel.getItemName());
-        holder.nameTextView.setText(borrowModel.getPersonName());
-        holder.dateTextView.setText(borrowModel.getBorrowDate().toLocaleString().substring(0, 11));
-        holder.itemView.setTag(borrowModel);
+        NoteModel noteModel = noteModelList.get(position);
+        holder.itemTextView.setText(noteModel.getItemName());
+        holder.nameTextView.setText(noteModel.getPersonName());
+        holder.dateTextView.setText(noteModel.getBorrowDate().toLocaleString().substring(0, 11));
+        holder.itemView.setTag(noteModel);
         holder.itemView.setOnLongClickListener(longClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return borrowModelList.size();
+        return noteModelList.size();
     }
 
-    public void addItems(List<BorrowModel> borrowModelList) {
-        this.borrowModelList = borrowModelList;
+    public void addItems(List<NoteModel> noteModelList) {
+        this.noteModelList = noteModelList;
         notifyDataSetChanged();
     }
 
