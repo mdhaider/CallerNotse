@@ -7,12 +7,11 @@
     android:paddingTop="100dp"
     tools:context=".activities.AddNoteActivity">
 
-
     <Button
         android:id="@+id/pickContactBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pick Contact" />
+        android:text="Pick Contact2" />
     <EditText
         android:id="@+id/itemName"
         android:layout_width="match_parent"

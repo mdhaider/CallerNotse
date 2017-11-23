@@ -29,7 +29,7 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
 
     private EditText itemEditText;
     private EditText nameEditText;
-    private Button pickContactButton;
+    private Button pickContactButton,pickContactButton2;
 
     private AddNoteViewModel addNoteViewModel;
 
@@ -43,7 +43,6 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         itemEditText = findViewById(R.id.itemName);
         nameEditText = findViewById(R.id.personName);
         pickContactButton = findViewById(R.id.pickContactBtn);
-
         calendar = Calendar.getInstance();
         addNoteViewModel = ViewModelProviders.of(this).get(AddNoteViewModel.class);
 
@@ -77,7 +76,7 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         pickContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(AddNoteActivity.this,ContatcsListActivity.class);
+                Intent intent=new Intent(AddNoteActivity.this,MainActivity.class);
                 startActivity(intent);
 
             }
