@@ -7,6 +7,12 @@
     android:paddingTop="100dp"
     tools:context=".activities.AddNoteActivity">
 
+
+    <Button
+        android:id="@+id/pickContactBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick Contact" />
     <EditText
         android:id="@+id/itemName"
         android:layout_width="match_parent"
@@ -25,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/set_date" />
+
 
 
 </LinearLayout>
