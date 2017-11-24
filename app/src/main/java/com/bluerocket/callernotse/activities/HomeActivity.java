@@ -86,6 +86,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
                 startActivity(new Intent(HomeActivity.this, HomeActivity.class));
             }
         });
+        guillotineMenu.findViewById(R.id.settings_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, SettingsPrefActivity.class));
+            }
+        });
 
 
 
