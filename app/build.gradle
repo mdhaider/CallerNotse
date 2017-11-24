@@ -33,5 +33,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.Yalantis:GuillotineMenu-Android:1.2'
+    implementation 'com.github.recruit-lifestyle:FloatingView:2.2.3'
+    implementation  'com.android.support:preference-v14:26.1.0'
 
 }

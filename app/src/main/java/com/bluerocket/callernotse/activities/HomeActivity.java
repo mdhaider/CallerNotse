@@ -1,8 +1,11 @@
 package com.bluerocket.callernotse.activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -47,7 +50,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            final String channelId = getString(R.string.default_floatingview_channel_id);
+            final String channelName = getString(R.string.default_floatingview_channel_name);
+            final NotificationChannel defaultChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_MIN);
+            final NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (manager != null) {
+                manager.createNotificationChannel(defaultChannel);
+            }
+        }
         toolbar=findViewById(R.id.toolbar);
         root=findViewById(R.id.root);
         contentHamburger=findViewById(R.id.content_hamburger);
