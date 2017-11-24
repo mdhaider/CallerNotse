@@ -80,10 +80,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
                 .setClosedOnStart(true)
                 .build();
 
-        guillotineMenu.findViewById(R.id.profile_group).setOnClickListener(new View.OnClickListener() {
+        guillotineMenu.findViewById(R.id.activity_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, AddNoteActivity.class));
+                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
             }
         });
 

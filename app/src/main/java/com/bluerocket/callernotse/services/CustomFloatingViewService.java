@@ -71,7 +71,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
         clearFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //stopself
+            //   stopSelf();
             }
       });
         iconView.setOnClickListener(new View.OnClickListener() {

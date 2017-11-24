@@ -17,18 +17,19 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:id="@+id/profile_group"
+        android:id="@+id/activity_group"
         style="@style/LinearLayout.GuillotineItem"
         android:layout_marginTop="@dimen/guillotine_medium_margin">
 
         <ImageView
             style="@style/ImageView.GuillotineItem"
-            android:src="@drawable/ic_profile" />
+            android:src="@drawable/ic_activity_active" />
 
         <com.bluerocket.callernotse.widget.CanaroTextView
-            style="@style/TextView.GuillotineItem"
-            android:text="@string/profile" />
+            style="@style/TextView.GuillotineItem.Selected"
+            android:text="@string/activity" />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/feed_group"
@@ -43,18 +44,6 @@
             android:text="@string/feed" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/activity_group"
-        style="@style/LinearLayout.GuillotineItem">
-
-        <ImageView
-            style="@style/ImageView.GuillotineItem"
-            android:src="@drawable/ic_activity_active" />
-
-        <com.bluerocket.callernotse.widget.CanaroTextView
-            style="@style/TextView.GuillotineItem.Selected"
-            android:text="@string/activity" />
-    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
