@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bluerocket.callernotse.R;
@@ -29,7 +30,9 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
 
     private EditText itemEditText;
     private EditText nameEditText;
-    private Button pickContactButton,pickContactButton2;
+    private TextView displaynameTextView;
+    private Button pickContactButton, pickContactButton2;
+    private static final int REQUEST_CONTACT = 1011;
 
     private AddNoteViewModel addNoteViewModel;
 
@@ -44,10 +47,23 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         itemEditText = findViewById(R.id.itemName);
         nameEditText = findViewById(R.id.personName);
         pickContactButton = findViewById(R.id.pickContactBtn);
+        displaynameTextView = findViewById(R.id.display_name);
         calendar = Calendar.getInstance();
+
         addNoteViewModel = ViewModelProviders.of(this).get(AddNoteViewModel.class);
 
         datePickerDialog = new DatePickerDialog(this, AddNoteActivity.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        nameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    nameEditText.setHint("");
+                else{
+                    nameEditText.setHint("Please add caller note here....");
+                }
+
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +93,8 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         pickContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(AddNoteActivity.this,ContactListActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(AddNoteActivity.this, ContactListActivity.class);
+                startActivityForResult(intent, REQUEST_CONTACT);
 
             }
         });
@@ -100,6 +116,22 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CONTACT:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    String a = bundle.getString("phone");
+                    String b = bundle.getString("name");
+                    itemEditText.setText(a);
+                    displaynameTextView.setText(b);
 
 
+                }
+                break;
+        }
+
+    }
 }

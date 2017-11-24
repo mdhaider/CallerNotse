@@ -1,9 +1,10 @@
 package com.bluerocket.callernotse.fragments;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +39,11 @@ public class ContactListFragment extends Fragment implements
 
     private static final String[] FROM_COLUMNS = {
             ContactsContract.Data.CONTACT_ID,
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                    ContactsContract.Data.DISPLAY_NAME_PRIMARY : ContactsContract.Data
+            ContactsContract.Data
                     .DISPLAY_NAME,
-            ContactsContract.Data.PHOTO_ID
+            ContactsContract.Data.HAS_PHONE_NUMBER,
+            ContactsContract.Data.PHOTO_ID,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
     };
     private Bundle mBundle;
 
@@ -123,6 +126,22 @@ public class ContactListFragment extends Fragment implements
 
         mContactAdapter = new ContactAdapter(getContext(), null, ContactsContract.Data
                 .CONTACT_ID);
+
+        mContactAdapter.setOnRecyclerViewItemClickListener(new ContactAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClicked(String text,String text2) {
+                Log.d("TAG", "Text is = " + text+" "+text2);
+
+                Bundle bundle= new Bundle();
+                bundle.putString("name", text2);
+                bundle.putString("phone", text);
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtras(bundle);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
+            }
+        });
         mWhatsappRecycler.setAdapter(mContactAdapter);
     }
 
@@ -136,8 +155,7 @@ public class ContactListFragment extends Fragment implements
                         FROM_COLUMNS,
                         null,
                         null,
-                        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                                ContactsContract.Data.DISPLAY_NAME_PRIMARY : ContactsContract.Data
+                        (ContactsContract.Data
                                 .DISPLAY_NAME) +
                                 " ASC"
                 );
@@ -150,6 +168,7 @@ public class ContactListFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
         mContactAdapter.swapCursor(data);
     }
 

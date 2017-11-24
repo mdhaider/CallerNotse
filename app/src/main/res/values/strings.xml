@@ -3,8 +3,8 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_add">Add New Caller Notes</string>
     <string name="title_activity_contact">Select Contact</string>
-    <string name="item_name">Item Name</string>
-    <string name="person_name">Person Name</string>
+    <string name="item_name">Phone Number</string>
+    <string name="person_name">Please add caller note here....</string>
     <string name="set_date">Set Date</string>
 
     <string name="action_settings">Settings</string>
