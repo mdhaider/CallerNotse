@@ -13,7 +13,6 @@
         android:id="@+id/display_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="Hi beb, I am coming soon"
         android:textColor="#ff0005"
         android:textSize="15sp"
@@ -21,8 +20,7 @@
 
     <Button
         android:id="@+id/clearDemo1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="@string/delete_demo" />
 </LinearLayout>

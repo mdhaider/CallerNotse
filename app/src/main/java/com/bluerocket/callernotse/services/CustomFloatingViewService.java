@@ -56,7 +56,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // 既にManagerが存在していたら何もしない
+
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
