@@ -27,7 +27,7 @@ import com.bluerocket.callernotse.custom.RecyclerViewFastScroller;
  * Created by nehal on 11/23/2017.
  */
 
-public class PlaceholderFragment extends Fragment implements
+public class ContactListFragment extends Fragment implements
         android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
     private static final int LOADER_ID = 1;
     private RecyclerView mWhatsappRecycler;
@@ -44,12 +44,12 @@ public class PlaceholderFragment extends Fragment implements
     };
     private Bundle mBundle;
 
-    public PlaceholderFragment() {
+    public ContactListFragment() {
     }
 
 
-    public static PlaceholderFragment newInstance() {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public static ContactListFragment newInstance() {
+        ContactListFragment fragment = new ContactListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

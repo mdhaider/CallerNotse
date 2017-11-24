@@ -39,6 +39,7 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         setContentView(R.layout.activity_add);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         itemEditText = findViewById(R.id.itemName);
         nameEditText = findViewById(R.id.personName);
@@ -76,7 +77,7 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         pickContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(AddNoteActivity.this,MainActivity.class);
+                Intent intent=new Intent(AddNoteActivity.this,ContactListActivity.class);
                 startActivity(intent);
 
             }
@@ -92,6 +93,13 @@ public class AddNoteActivity extends AppCompatActivity implements DatePickerDial
         date = calendar.getTime();
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
 
 }

@@ -6,4 +6,7 @@
 
     <color name="divider">#BDBDBD</color>
     <color name="scrollbar">#00796b</color>
+    <color name="guillotine_background">#009688</color>
+    <color name="guillotine_background_dark">#00796b</color>
+    <color name="selected_item_color">#30d1d5</color>
 </resources>

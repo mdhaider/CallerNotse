@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,7 +22,7 @@ import com.bluerocket.callernotse.custom.RecyclerViewFastScroller;
  */
 
 public class ContactAdapter extends CursorRecyclerViewAdapter<ContactAdapter.ContactsViewHolder> implements RecyclerViewFastScroller.BubbleTextGetter {
-    String username;
+    String username, phone;
     public ContactAdapter(Context context, Cursor cursor, String id) {
         super(context, cursor, id);
     }
@@ -37,15 +36,23 @@ public class ContactAdapter extends CursorRecyclerViewAdapter<ContactAdapter.Con
 
     @Override
     public void onBindViewHolder(ContactsViewHolder viewHolder, Cursor cursor) {
-         username = cursor.getString(cursor.getColumnIndex(
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
-                        ContactsContract.Data.DISPLAY_NAME_PRIMARY : ContactsContract.Data
-                        .DISPLAY_NAME
-        ));
+         username = cursor.getString(cursor.getColumnIndex(ContactsContract.Data
+                        .DISPLAY_NAME));
+
+       /* phone = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.PHOTO_ID));
+            Log.i("Number", phone);*/
+
+       /* if (Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0)
+        {
+          *//*  // Query phone here. Covered next
+            String ContctMobVar = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            Log.i("Number", ContctMobVar);*//*
+    }*/
         int totalcontact= cursor.getCount();
         Log.d("total contact list",String.valueOf(totalcontact));
 
         viewHolder.setUsername(username);
+        viewHolder.setPhoneNumber(phone);
         long contactId = getItemId(cursor.getPosition());
         long photoId = cursor.getLong(cursor.getColumnIndex(
                 ContactsContract.Data.PHOTO_ID
@@ -68,19 +75,25 @@ public class ContactAdapter extends CursorRecyclerViewAdapter<ContactAdapter.Con
     }
 
     public static class ContactsViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewContactUsername;
+        TextView textViewContactUsername,textViewContactUserphone;
         ImageView imageViewContactDisplay;
 
         public ContactsViewHolder(View itemView) {
             super(itemView);
             textViewContactUsername = (TextView) itemView.findViewById(R.id
                     .text_view_contact_username);
+            textViewContactUserphone = (TextView) itemView.findViewById(R.id
+                    .text_view_contact_phone_number);
+
             imageViewContactDisplay = (ImageView) itemView.findViewById(R.id
                     .image_view_contact_display);
         }
 
         public void setUsername(String username) {
             textViewContactUsername.setText(username);
+        }
+        public void setPhoneNumber(String phone) {
+            textViewContactUserphone.setText(phone);
         }
     }
 }
