@@ -38,11 +38,6 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:taskAffinity="jp.co.recruit.floatingview.ChatHeadActivity" />
-        <!-- デモ表示サービス -->
-        <service
-            android:name=".services.ChatHeadService"
-            android:exported="false" />
-        <!-- カスタムデモ表示サービス -->
         <service
             android:name=".services.CustomFloatingViewService"
             android:exported="false" />

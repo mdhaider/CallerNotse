@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
     android:id="@+id/ll"
-android:layout_height="100dp"
-android:orientation="vertical">
-
-<TextView
-    android:id="@+id/display_name"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textColor="#336262"
-    android:textAllCaps="true"
-    android:text="Hi beb"
-    android:textSize="15sp"
-    android:textStyle="bold"
-    android:gravity="center"/>
+    android:layout_height="100dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="20dp"
+    android:background="@color/primary"
+    android:orientation="vertical">
 
-<ImageView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:src="@drawable/facebook_avatar"/>
+    <TextView
+        android:id="@+id/display_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Hi beb, I am coming soon"
+        android:textColor="#ff0005"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/clearDemo1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/delete_demo" />
 </LinearLayout>

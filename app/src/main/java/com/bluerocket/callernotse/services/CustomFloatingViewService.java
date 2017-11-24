@@ -16,6 +16,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.bluerocket.callernotse.R;
@@ -65,10 +66,17 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
         windowManager.getDefaultDisplay().getMetrics(metrics);
         final LayoutInflater inflater = LayoutInflater.from(this);
         final LinearLayout iconView = (LinearLayout) inflater.inflate(R.layout.widget_mail, null, false);
+
+       final Button clearFloatingButton =(Button) iconView.findViewById(R.id.clearDemo1);
+        clearFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //stopself
+            }
+      });
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // メールアプリの起動
                 final Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.mail_address), null));
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_title));
                 intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_content));
@@ -76,6 +84,7 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
                 startActivity(intent);
             }
         });
+
 
         mFloatingViewManager = new FloatingViewManager(this, this);
         mFloatingViewManager.setFixedTrashIconImage(R.drawable.ic_trash_fixed);
