@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.widget.Toast;
 
 import com.bluerocket.callernotse.services.CustomFloatingViewService;
 
@@ -38,12 +37,31 @@ public class CallReceiver extends PhoneCallReceiver {
                 context.startService(intent);
             }
         }, 1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                context.stopService(intent);
+            }
+        }, 10000);
     }
 
     @Override
     protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end)
     {
-        // Toast.makeText(ctx,"Bye Bye"+ number,Toast.LENGTH_LONG).show();
+
+        context = ctx;
+
+        final Intent intent = new Intent(context, CustomFloatingViewService.class);
+        //  intent.putExtra("phone_no", number);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                context.stopService(intent);
+
+            }
+        }, 500);
     }
 
     @Override
@@ -65,12 +83,33 @@ public class CallReceiver extends PhoneCallReceiver {
                     context.startService(intent);
             }
         }, 1000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                    context.stopService(intent);
+            }
+        }, 10000);
     }
 
     @Override
     protected void onOutgoingCallEnded(Context ctx, String number, Date start, Date end)
     {
-         Toast.makeText(ctx,"Bye Bye"+ number,Toast.LENGTH_LONG).show();
+        // Toast.makeText(ctx,"Bye Bye"+ number,Toast.LENGTH_LONG).show();
+
+        context = ctx;
+
+        final Intent intent = new Intent(context, CustomFloatingViewService.class);
+        //  intent.putExtra("phone_no", number);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                   context.stopService(intent);
+
+            }
+        }, 500);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.bluerocket.callernotse;
+package com.bluerocket.callernotse.application;
 
 import android.app.Application;
 import android.graphics.Typeface;

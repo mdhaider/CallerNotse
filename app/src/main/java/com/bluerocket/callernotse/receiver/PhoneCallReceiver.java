@@ -18,39 +18,33 @@ public class PhoneCallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        try
-        {
-            if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL"))
-            {
-                savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
+        try {
+            //to Fix Lolipop broadcast issue.
+            long subId = intent.getLongExtra("subscription", Long.MIN_VALUE);
+            if (subId < Integer.MAX_VALUE) {
+                if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
+                    savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
 
-                isOutgoing=true;
-               //  Toast.makeText(context,"You are calling   " +savedNumber,Toast.LENGTH_SHORT).show();
-                onOutgoingCallStarted(context,savedNumber,callStartTime);
+               /* isOutgoing=true;*/
+                    //  Toast.makeText(context,"You are calling   " +savedNumber,Toast.LENGTH_SHORT).show();
+                    onOutgoingCallStarted(context, savedNumber, callStartTime);
 
+                } else {
+                    String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
+                    String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                    int state = 0;
+                    if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+                        state = TelephonyManager.CALL_STATE_IDLE;
+                    } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                        state = TelephonyManager.CALL_STATE_OFFHOOK;
+                    } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                        state = TelephonyManager.CALL_STATE_RINGING;
+                    }
+
+                    onCallStateChanged(context, state, number);
+                }
             }
-            else
-            {
-                String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
-                String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                int state = 0;
-                if(stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE))
-                {
-                    state = TelephonyManager.CALL_STATE_IDLE;
-                }
-                else if(stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
-                {
-                    state = TelephonyManager.CALL_STATE_OFFHOOK;
-                }
-                else if(stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING))
-                {
-                    state = TelephonyManager.CALL_STATE_RINGING;
-                }
-
-                onCallStateChanged(context, state, number);
-            }
-        }
-        catch (Exception e)
+        }catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -79,16 +73,25 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 break;
 
             case TelephonyManager.CALL_STATE_OFFHOOK:
-                if (isIncoming)
-                {
-                    onIncomingCallEnded(context,savedNumber,callStartTime,new Date());
+                if (lastState == TelephonyManager.CALL_STATE_RINGING) {
+                    isIncoming = true;
+                    callStartTime = new Date();
+                   // onReceiveCall(context, savedNumber, callStartTime, "received");
+                } else {
+                    isIncoming = false;
                 }
+                break;
 
             case TelephonyManager.CALL_STATE_IDLE:
-                if(isIncoming)
-                {
+                if (lastState == TelephonyManager.CALL_STATE_RINGING) {
+
+                //    onMissedCall(context, savedNumber, callStartTime, "Missed");
+                } else if (isIncoming) {
                     onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
+                } else {
+                    onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
                 }
+                break;
         }
         lastState = state;
     }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.bluerocket.callernotse.App;
+import com.bluerocket.callernotse.application.App;
 
 
 /**
