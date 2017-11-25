@@ -6,7 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -16,7 +16,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bluerocket.callernotse.R;
@@ -67,24 +67,35 @@ public class CustomFloatingViewService extends Service implements FloatingViewLi
         final LayoutInflater inflater = LayoutInflater.from(this);
         final LinearLayout iconView = (LinearLayout) inflater.inflate(R.layout.widget_mail, null, false);
 
-       final Button clearFloatingButton =(Button) iconView.findViewById(R.id.clearDemo1);
-        clearFloatingButton.setOnClickListener(new View.OnClickListener() {
+       final ImageView clearFloatingButton =(ImageView) iconView.findViewById(R.id.clearDemo1);
+       /* clearFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //   stopSelf();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        stopSelf();
+                    }
+                }, 500);
             }
-      });
+      });*/
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.mail_address), null));
+               /* final Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.mail_address), null));
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_title));
                 intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.mail_content));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivity(intent);*/
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        stopSelf();
+
+                    }
+                }, 500);
             }
         });
-
 
         mFloatingViewManager = new FloatingViewManager(this, this);
         mFloatingViewManager.setFixedTrashIconImage(R.drawable.ic_trash_fixed);
