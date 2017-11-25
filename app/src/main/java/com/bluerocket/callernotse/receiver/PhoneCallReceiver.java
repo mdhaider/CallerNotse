@@ -16,14 +16,15 @@ public class PhoneCallReceiver extends BroadcastReceiver {
     private static String savedNumber;
 
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
+
         try {
             //to Fix Lolipop broadcast issue.
             long subId = intent.getLongExtra("subscription", Long.MIN_VALUE);
             if (subId < Integer.MAX_VALUE) {
                 if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
                     savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
+                   onAsyncTaskCalled(context ,savedNumber);
 
                /* isOutgoing=true;*/
                     //  Toast.makeText(context,"You are calling   " +savedNumber,Toast.LENGTH_SHORT).show();
@@ -32,6 +33,7 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 } else {
                     String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
                     String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                    onAsyncTaskCalled(context ,savedNumber);
                     int state = 0;
                     if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                         state = TelephonyManager.CALL_STATE_IDLE;
@@ -55,6 +57,7 @@ public class PhoneCallReceiver extends BroadcastReceiver {
     protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end){}
     protected void onOutgoingCallStarted(Context ctx, String number, Date start){}
     protected void onOutgoingCallEnded(Context ctx, String number, Date start, Date end){}
+    protected void onAsyncTaskCalled(Context ctx, String number){}
 
     public void onCallStateChanged(Context context, int state, String number)
     {

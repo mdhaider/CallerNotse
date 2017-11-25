@@ -21,6 +21,9 @@ public interface NoteModelDao {
     @Query("select * from NoteModel")
     LiveData<List<NoteModel>> getAllBorrowedItems();
 
+    @Query("select * from NoteModel")
+    List<NoteModel> getAllNoteItems();
+
     @Query("select * from NoteModel where id = :id")
     NoteModel getItembyId(String id);
 

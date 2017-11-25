@@ -9,18 +9,20 @@
     android:background="@color/primary"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/display_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hi beb, I am coming soon"
-        android:textColor="#ff0005"
+        android:text="Hi beb, here I am with some cool features"
+        android:textColor="#353E39"
         android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <Button
+        android:textStyle="italic" />
+    <ImageView
         android:id="@+id/clearDemo1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_demo" />
+        android:layout_height="80dp"
+        android:background="@drawable/ww" />
+
+
 </LinearLayout>
