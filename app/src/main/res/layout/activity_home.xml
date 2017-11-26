@@ -11,7 +11,7 @@
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/guillotine_actionbar_background_view_height"
-        android:background="@color/guillotine_background"
+        android:background="@color/primary"
         />
 
     <LinearLayout
@@ -24,22 +24,34 @@
         app:contentInsetStart="0dp"
         style="@style/Toolbar">
 
-        <ImageView
-            android:id="@+id/content_hamburger"
-            style="@style/ImageView.Hamburger"
-            android:src="@drawable/ic_menu" />
-
         <com.bluerocket.callernotse.widget.CanaroTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/activity"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="@dimen/guillotine_item_text_size" />
     </android.support.v7.widget.Toolbar>
 
 
     <include layout="@layout/content_main" />
     </LinearLayout>
+
+
+    <com.ashokvarma.bottomnavigation.BottomNavigationBar
+        android:id="@+id/bottom_navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+    <!--app:bnbAutoHideEnabled="false"/>-->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"
+        android:tint="@android:color/white" />
 
 </android.support.design.widget.CoordinatorLayout>
