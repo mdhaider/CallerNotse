@@ -15,7 +15,7 @@ android:layout_height="match_parent">
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"/>
 
-<com.bluerocket.callernotse.custom.RecyclerViewFastScroller
+<com.bluerocket.callernotse.widget.RecyclerViewFastScroller
     android:id="@+id/fastscroller"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"

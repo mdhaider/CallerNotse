@@ -6,38 +6,38 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.bluerocket.callernotse.R;
 import com.bluerocket.callernotse.adapters.RecyclerViewAdapter;
-import com.bluerocket.callernotse.models.NoteModel;
+import com.bluerocket.callernotse.widget.Fab;
+import com.bluerocket.callernotse.fragments.AddNoteFragment;
+import com.bluerocket.callernotse.fragments.CallerNotesListFragment;
+import com.bluerocket.callernotse.fragments.HomeFragment;
 import com.bluerocket.callernotse.viewmodel.NoteListViewModel;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HomeActivity extends AppCompatActivity implements View.OnLongClickListener,BottomNavigationBar.OnTabSelectedListener {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener,HomeFragment.OnFragmentInteractionListener, BottomNavigationBar.OnTabSelectedListener,AddNoteFragment.OnFragmentInteractionListener {
 
     private NoteListViewModel viewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -47,7 +47,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
     private static final long RIPPLE_DURATION = 200;
     private static final long SET_DURATION = 1000;
 
+    private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
+    private MaterialSheetFab materialSheetFab;
+    private int statusBarColor;
 
+    @Nullable
+    TextBadgeItem numberBadgeItem;
 
    private Toolbar toolbar;
 
@@ -56,6 +62,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
    private View contentHamburger;
     Context context;
     BottomNavigationBar bottomNavigationBar;
+    int lastSelectedPosition = 0;
+    public Fab fab;
+    private static final int REQUEST_CONTACT = 1011;
 
 
 
@@ -66,6 +75,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
         setContentView(R.layout.activity_home);
         context = HomeActivity.this;
         checkPermission();
+
+
+        /*setupActionBar();
+        setupDrawer();
+        setupFab();
+        setupTabs();*/
+        setupFab();
+        materialSheetFab.showFab();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final String channelId = getString(R.string.default_floatingview_channel_id);
@@ -78,8 +95,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
         }
     //    toolbar=findViewById(R.id.toolbar);
         root=findViewById(R.id.root);
-        FloatingActionButton fab = findViewById(R.id.fab);
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar.clearAll();
+
+        setScrollableText(lastSelectedPosition);
+
+        numberBadgeItem = new TextBadgeItem()
+                .setBorderWidth(4)
+                .setBackgroundColorResource(R.color.blue)
+                .setText("" + 0)
+                .setHideOnSelect(true);
 
 /*
 
@@ -89,47 +114,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
         }
 */
 
-        fab.setOnClickListener(new View.OnClickListener() {
+     /*   fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, AddNoteActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNoteFragment()).commitAllowingStateLoss();
             }
-        });
+        });*/
+
 
         bottomNavigationBar.setFab(fab);
         bottomNavigationBar.setMode(1);
         bottomNavigationBar.setBackgroundStyle(2);
+        bottomNavigationBar.setTabSelectedListener(this);
 
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_action_search, "Home").setActiveColorResource(R.color.primary))
-                .addItem(new BottomNavigationItem(R.drawable.ic_done_white_24dp, "Books").setActiveColorResource(R.color.black))
-                .addItem(new BottomNavigationItem(R.drawable.ic_add_white_24dp, "Music").setActiveColorResource(R.color.selected_item_color))
-                .addItem(new BottomNavigationItem(R.drawable.ic_done_white_24dp, "Movies & TV").setActiveColorResource(R.color.lightorange))
-                .setFirstSelectedPosition(0)
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "Home").setActiveColorResource(R.color.primary))
+                .addItem(new BottomNavigationItem(R.drawable.ic_list_white_24dp, "List").setActiveColorResource(R.color.black).setBadgeItem(numberBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.ic_archive_white_24dp, "Archive").setActiveColorResource(R.color.selected_item_color))
+                .addItem(new BottomNavigationItem(R.drawable.ic_settings_white_24dp, "Settings").setActiveColorResource(R.color.blue))
+                .setFirstSelectedPosition(lastSelectedPosition > 0 ? lastSelectedPosition : 0)
                 .initialise();
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<NoteModel>(), this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        recyclerView.setAdapter(recyclerViewAdapter);
-
-        viewModel = ViewModelProviders.of(this).get(NoteListViewModel.class);
-
-        viewModel.getItemAndPersonList().observe(HomeActivity.this, new Observer<List<NoteModel>>() {
-            @Override
-            public void onChanged(@Nullable List<NoteModel> itemAndPeople) {
-                recyclerViewAdapter.addItems(itemAndPeople);
-            }
-        });
-
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        NoteModel noteModel = (NoteModel) v.getTag();
-        viewModel.deleteItem(noteModel);
-        return true;
-    }
+
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void checkPermission()
@@ -180,11 +187,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
     @Override
     public void onTabSelected(int position) {
 
-     //   Toast.makeText(this,"Under Construction"+position,Toast.LENGTH_SHORT).setGravity(););
 
-      //  setScrollableText(position);
+        lastSelectedPosition = position;
+        setMessageText(position + " Tab Selected");
+        if (numberBadgeItem != null) {
+            numberBadgeItem.setText(Integer.toString(position));
+        }
+        setScrollableText(position);
+
     }
 
+    private void setScrollableText(int position) {
+        switch (position) {
+            case 0:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commitAllowingStateLoss();
+
+                break;
+            case 1:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CallerNotesListFragment()).commitAllowingStateLoss();
+                break;
+            case 2:
+                startActivity(new Intent(this,MainActivity.class));
+                break;
+            case 3:
+                startActivity(new Intent(this,SettingsPrefActivity.class));
+                break;
+        }
+    }
     @Override
     public void onTabUnselected(int position) {
     }
@@ -198,16 +227,82 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
      //   message.setText(messageText);
     }
 
-    private void setScrollableText(int position) {
-        switch (position) {
-            case 0:
-           //     getSupportFragmentManager().beginTransaction().replace(R.id.home_activity_frag_container, fragment1).commitAllowingStateLoss();
-           Toast.makeText(this,"Under Construction",Toast.LENGTH_SHORT).setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-                break;
-            case 1:
-            //    getSupportFragmentManager().beginTransaction().replace(R.id.home_activity_frag_container, fragment2).commitAllowingStateLoss();
-                break;
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (materialSheetFab.isSheetVisible()) {
+            materialSheetFab.hideSheet();
+        } else {
+            super.onBackPressed();
         }
     }
+
+    /**
+     * Sets up the Floating action button.
+     */
+    public void setupFab() {
+
+       fab= (Fab) findViewById(R.id.fab);
+        View sheetView = findViewById(R.id.fab_sheet);
+        View overlay = findViewById(R.id.overlay);
+
+
+        int sheetColor = getResources().getColor(R.color.background_card);
+        int fabColor = getResources().getColor(R.color.theme_accent);
+
+        // Create material sheet FAB
+        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay, sheetColor, fabColor);
+
+        findViewById(R.id.fab_sheet_item_recording).setOnClickListener(HomeActivity.this);
+        findViewById(R.id.fab_sheet_item_reminder).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_note).setOnClickListener(this);
+
+        // Set material sheet event listener
+        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
+            @Override
+            public void onShowSheet() {
+                // Save current status bar color
+                statusBarColor = getStatusBarColor();
+                // Set darker status bar color to match the dim overlay
+                setStatusBarColor(getResources().getColor(R.color.theme_primary_dark2));
+            }
+
+            @Override
+            public void onHideSheet() {
+                // Restore status bar color
+                setStatusBarColor(statusBarColor);
+            }
+        });
+
+        // Set material sheet item click listeners
+
+    }
+
+    private int getStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getWindow().getStatusBarColor();
+        }
+        return 0;
+    }
+
+    private void setStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNoteFragment()).commitAllowingStateLoss();
+           // Toast.makeText(this, R.string.sheet_item_pressed, Toast.LENGTH_SHORT).show();
+            materialSheetFab.hideSheet();
+        }
+
 }
 

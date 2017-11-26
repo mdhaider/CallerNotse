@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bluerocket.callernotse.R;
-import com.bluerocket.callernotse.custom.RecyclerViewFastScroller;
+import com.bluerocket.callernotse.widget.RecyclerViewFastScroller;
 
 
 /**

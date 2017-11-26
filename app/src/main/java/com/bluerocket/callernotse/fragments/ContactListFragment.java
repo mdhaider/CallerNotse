@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import com.bluerocket.callernotse.BuildConfig;
 import com.bluerocket.callernotse.R;
 import com.bluerocket.callernotse.adapters.ContactAdapter;
-import com.bluerocket.callernotse.custom.RecyclerViewFastScroller;
+import com.bluerocket.callernotse.widget.RecyclerViewFastScroller;
 
 
 /**

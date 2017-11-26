@@ -160,4 +160,12 @@ public class SettingsPrefActivity extends AppCompatPreferenceActivity {
         intent.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+
+            startActivity(new Intent(this,HomeActivity.class));
+
+    }
+
 }

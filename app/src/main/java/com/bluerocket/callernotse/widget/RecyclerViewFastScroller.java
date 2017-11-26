@@ -1,4 +1,4 @@
-package com.bluerocket.callernotse.custom;
+package com.bluerocket.callernotse.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

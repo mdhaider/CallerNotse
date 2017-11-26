@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,9 @@ public class MainActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		Toolbar toolbar = findViewById(R.id.toolbar);
+
 		conNames = new ArrayList<String>();
 		conNumbers = new ArrayList<String>();
 		conTime = new ArrayList<String>();
@@ -134,6 +138,13 @@ public class MainActivity extends ListActivity {
 			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		startActivity(new Intent(this,HomeActivity.class));
+
 	}
 
 }
