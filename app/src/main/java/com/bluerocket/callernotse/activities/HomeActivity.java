@@ -23,19 +23,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Toast;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bluerocket.callernotse.R;
 import com.bluerocket.callernotse.adapters.RecyclerViewAdapter;
 import com.bluerocket.callernotse.models.NoteModel;
 import com.bluerocket.callernotse.viewmodel.NoteListViewModel;
-import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements View.OnLongClickListener {
+public class HomeActivity extends AppCompatActivity implements View.OnLongClickListener,BottomNavigationBar.OnTabSelectedListener {
 
     private NoteListViewModel viewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -53,6 +55,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
 
    private View contentHamburger;
     Context context;
+    BottomNavigationBar bottomNavigationBar;
 
 
 
@@ -73,47 +76,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
                 manager.createNotificationChannel(defaultChannel);
             }
         }
-        toolbar=findViewById(R.id.toolbar);
+    //    toolbar=findViewById(R.id.toolbar);
         root=findViewById(R.id.root);
-        contentHamburger=findViewById(R.id.content_hamburger);
         FloatingActionButton fab = findViewById(R.id.fab);
+        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
+/*
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(null);
         }
-
-        View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.guillotine, null);
-        root.addView(guillotineMenu);
-
-        new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
-                .setStartDelay(RIPPLE_DURATION)
-                .setActionBarViewForAnimation(toolbar)
-                .setDuration(SET_DURATION)
-                .setClosedOnStart(true)
-                .build();
-
-        guillotineMenu.findViewById(R.id.activity_group).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
-            }
-        });
-        guillotineMenu.findViewById(R.id.settings_group).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SettingsPrefActivity.class));
-            }
-        });
-        guillotineMenu.findViewById(R.id.feed_group).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
-            }
-        });
-
-
+*/
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +96,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
             }
         });
 
+        bottomNavigationBar.setFab(fab);
+        bottomNavigationBar.setMode(1);
+        bottomNavigationBar.setBackgroundStyle(2);
+
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_action_search, "Home").setActiveColorResource(R.color.primary))
+                .addItem(new BottomNavigationItem(R.drawable.ic_done_white_24dp, "Books").setActiveColorResource(R.color.black))
+                .addItem(new BottomNavigationItem(R.drawable.ic_add_white_24dp, "Music").setActiveColorResource(R.color.selected_item_color))
+                .addItem(new BottomNavigationItem(R.drawable.ic_done_white_24dp, "Movies & TV").setActiveColorResource(R.color.lightorange))
+                .setFirstSelectedPosition(0)
+                .initialise();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<NoteModel>(), this);
@@ -192,4 +176,38 @@ public class HomeActivity extends AppCompatActivity implements View.OnLongClickL
                 break;
         }
     }
+
+    @Override
+    public void onTabSelected(int position) {
+
+     //   Toast.makeText(this,"Under Construction"+position,Toast.LENGTH_SHORT).setGravity(););
+
+      //  setScrollableText(position);
+    }
+
+    @Override
+    public void onTabUnselected(int position) {
+    }
+
+    @Override
+    public void onTabReselected(int position) {
+        setMessageText(position + " Tab Reselected");
+    }
+
+    private void setMessageText(String messageText) {
+     //   message.setText(messageText);
+    }
+
+    private void setScrollableText(int position) {
+        switch (position) {
+            case 0:
+           //     getSupportFragmentManager().beginTransaction().replace(R.id.home_activity_frag_container, fragment1).commitAllowingStateLoss();
+           Toast.makeText(this,"Under Construction",Toast.LENGTH_SHORT).setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
+                break;
+            case 1:
+            //    getSupportFragmentManager().beginTransaction().replace(R.id.home_activity_frag_container, fragment2).commitAllowingStateLoss();
+                break;
+        }
+    }
 }
+

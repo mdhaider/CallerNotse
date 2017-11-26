@@ -11,6 +11,7 @@
     <color name="selected_item_color">#30d1d5</color>
 
     <color name="black">#000</color>
+    <color name="white">#fff</color>
     <color name="lightorange">#fdf2df</color>
     <color name="lightorangedark">#ebd6ab</color>
     <color name="colorAccent">#FF4081</color>

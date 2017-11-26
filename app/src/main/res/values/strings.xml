@@ -13,10 +13,8 @@
     <string name="menu_title_starred_messages">Starred messages</string>
     <string name="menu_title_status">Status</string>
 
+    <string name="activity">Hello Haider</string>
 
-    <string name="feed">ARCHIVE</string>
-    <string name="activity">ACTIVITY</string>
-    <string name="settings">SETTINGS</string>
 
 
     <string name="chathead_content_title">Demo Chat: Active</string>
