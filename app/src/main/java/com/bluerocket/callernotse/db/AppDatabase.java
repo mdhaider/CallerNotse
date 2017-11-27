@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.bluerocket.callernotse.models.NoteModel;
 
-@Database(entities = {NoteModel.class}, version = 1)
+@Database(entities = {NoteModel.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;

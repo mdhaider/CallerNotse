@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
@@ -14,7 +13,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <!-- To access Google+ APIs: -->
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -65,7 +64,7 @@
                 android:value="com.bluerocket.callernotse.activities.HomeActivity" />
         </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.CallLogActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity

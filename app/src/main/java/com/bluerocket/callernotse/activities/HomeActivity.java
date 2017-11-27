@@ -123,12 +123,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
         bottomNavigationBar.setFab(fab);
-        bottomNavigationBar.setMode(1);
-        bottomNavigationBar.setBackgroundStyle(2);
+        bottomNavigationBar.setMode(0);
+        bottomNavigationBar.setBackgroundStyle(1);
         bottomNavigationBar.setTabSelectedListener(this);
 
         bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "Home").setActiveColorResource(R.color.primary))
-                .addItem(new BottomNavigationItem(R.drawable.ic_list_white_24dp, "List").setActiveColorResource(R.color.black).setBadgeItem(numberBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.ic_list_white_24dp, "List").setActiveColorResource(R.color.guillotine_background).setBadgeItem(numberBadgeItem))
                 .addItem(new BottomNavigationItem(R.drawable.ic_archive_white_24dp, "Archive").setActiveColorResource(R.color.selected_item_color))
                 .addItem(new BottomNavigationItem(R.drawable.ic_settings_white_24dp, "Settings").setActiveColorResource(R.color.blue))
                 .setFirstSelectedPosition(lastSelectedPosition > 0 ? lastSelectedPosition : 0)
@@ -207,7 +207,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CallerNotesListFragment()).commitAllowingStateLoss();
                 break;
             case 2:
-                startActivity(new Intent(this,MainActivity.class));
+                startActivity(new Intent(this,CallLogActivity.class));
                 break;
             case 3:
                 startActivity(new Intent(this,SettingsPrefActivity.class));
