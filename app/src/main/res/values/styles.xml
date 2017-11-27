@@ -26,8 +26,6 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-
-
     <style name="LinearLayout" />
 
     <style name="LinearLayout.GuillotineItem">
@@ -77,7 +75,9 @@
     <style name="ImageView.Hamburger" parent="Widget.AppCompat.ActionButton">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginBottom">@dimen/abc_action_bar_overflow_padding_start_material</item>
+        <item name="android:layout_marginBottom">
+            @dimen/abc_action_bar_overflow_padding_start_material
+        </item>
     </style>
 
     <style name="ImageView.GuillotineItem">
@@ -136,7 +136,7 @@
         <item name="android:src">@drawable/ic_add_white_24dp</item>
         <item name="fabSize">normal</item>
         <item name="borderWidth">0dp</item>
-       <item name="android:tint">@android:color/white</item>
+        <item name="android:tint">@android:color/white</item>
     </style>
 
     <style name="Widget.MaterialSheetFab.Sheet" parent="">
@@ -224,6 +224,35 @@
         <item name="android:textSize">@dimen/snackbar_textsize</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+
+    <!-- LIGHT Theme -->
+    <style name="Theme_Light_Base" parent="@style/ContactPicker_Theme_Light">
+        <!-- ActionBarCompat -->
+        <item name="colorPrimary">@color/colorPrimary_light</item>
+        <item name="colorAccent">@color/colorAccent_light</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_light</item>
+
+        <item name="backgroundColor">@color/background_light</item>
+        <item name="icTheme">@drawable/ic_add_white_24dp</item>
+        <item name="icPickContact">@drawable/ic_cancel</item>
+    </style>
+
+    <style name="Theme_Light" parent="@style/Theme_Light_Base"/>
+
+    <!-- DARK Theme -->
+    <style name="Theme_Dark_Base" parent="@style/ContactPicker_Theme_Dark">
+        <!-- ActionBarCompat -->
+        <item name="colorPrimary">@color/colorPrimary_dark</item>
+        <item name="colorAccent">@color/colorAccent_dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_dark</item>
+
+        <item name="backgroundColor">@color/background_dark</item>
+        <item name="icTheme">@drawable/ic_action_search</item>
+        <item name="icPickContact">@drawable/ic_action_search</item>
+    </style>
+
+    <style name="Theme_Dark" parent="@style/Theme_Dark_Base"/>
 
 
 </resources>

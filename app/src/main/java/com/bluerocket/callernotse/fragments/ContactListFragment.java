@@ -152,7 +152,7 @@ public class ContactListFragment extends Fragment implements
                 return new CursorLoader(
                         getContext(),
                         ContactsContract.Data.CONTENT_URI,
-                        FROM_COLUMNS,
+                        null,
                         null,
                         null,
                         (ContactsContract.Data
@@ -168,6 +168,8 @@ public class ContactListFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+
 
         mContactAdapter.swapCursor(data);
     }

@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bluerocket.callernotse.R;
-import com.bluerocket.callernotse.activities.ContactListActivity;
+import com.bluerocket.callernotse.contactlist.contact.activities.DemoActivity;
 import com.bluerocket.callernotse.activities.HomeActivity;
 import com.bluerocket.callernotse.models.NoteModel;
 import com.bluerocket.callernotse.viewmodel.AddNoteViewModel;
@@ -136,7 +136,7 @@ public class AddNoteFragment extends Fragment implements DatePickerDialog.OnDate
         pickContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ContactListActivity.class);
+                Intent intent = new Intent(getActivity(), DemoActivity.class);
                 startActivityForResult(intent, REQUEST_CONTACT);
 
             }

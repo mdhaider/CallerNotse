@@ -16,7 +16,6 @@
     <string name="activity">Hello Haider</string>
 
 
-
     <string name="chathead_content_title">Demo Chat: Active</string>
     <string name="content_text">Demo running.</string>
     <string name="mail_content_title">Demo Customize: active</string>
@@ -163,5 +162,19 @@
     <string name="sheet_item_pressed">Item pressed</string>
     <string name="snackbar_shared_msg">Gordon Wong shared a note with you.</string>
     <string name="view">View</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_demo">DemoActivity</string>
+
+
+    <string name="pick_contacts">Pick contact(s)</string>
+    <string name="picked_contacts">Picked contact(s)</string>
+
+
+    <string name="permission_denied_contacts">The contact picker won\'t work without this permission. Are you sure you want to deny this permission?</string>
+    <string name="permission_deny">Deny</string>
+    <string name="permission_retry">Re-try</string>
+
+    <string name="light_theme">Light Theme</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>
 

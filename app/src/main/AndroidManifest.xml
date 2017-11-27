@@ -67,20 +67,30 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-
-        </activity>
-        <activity
-            android:name=".activities.InsertCallLog"
-            android:label="@string/add"
-            android:theme="@style/AppTheme.NoActionBar">
-    </activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".activities.WelcomeActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".contactlist.contact.activities.BaseActivity"
+            android:label="@string/title_activity_base"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".contactlist.contact.activities.DemoActivity"
+            android:label="@string/title_activity_demo"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".contactlist.contact.core.ContactPickerActivity"
+            android:enabled="true"
+            android:exported="false" >
 
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
