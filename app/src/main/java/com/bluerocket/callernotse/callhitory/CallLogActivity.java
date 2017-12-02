@@ -1,4 +1,4 @@
-package com.bluerocket.callernotse.activities;
+package com.bluerocket.callernotse.callhitory;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.bluerocket.callernotse.R;
-import com.bluerocket.callernotse.helpers.CallLogHelper;
+import com.bluerocket.callernotse.activities.HomeActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,57 +77,60 @@ public class CallLogActivity extends ListActivity {
                 conType.add("Incoming");
             } else if (callType.equals("2")) {
                 conType.add("Outgoing");
-            } else {
+            } else if (callType.equals("3")) {
                 conType.add("Missed");
-                String duration = curLog.getString(curLog
-                        .getColumnIndex(android.provider.CallLog.Calls.DURATION));
-                conTime.add(duration);
+
+            } else {
+                conType.add("Rejected");
             }
-            }
+            String duration = curLog.getString(curLog
+                    .getColumnIndex(android.provider.CallLog.Calls.DURATION));
+            conTime.add(duration);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(this, HomeActivity.class));
+
+    }
+
+    private class MyAdapter extends ArrayAdapter<String> {
+
+        public MyAdapter(Context context, int resource, int textViewResourceId,
+                         ArrayList<String> conNames) {
+            super(context, resource, textViewResourceId, conNames);
+
         }
 
         @Override
-        public void onBackPressed () {
-            super.onBackPressed();
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-            startActivity(new Intent(this, HomeActivity.class));
-
+            View row = setList(position, parent);
+            return row;
         }
 
-        private class MyAdapter extends ArrayAdapter<String> {
+        private View setList(int position, ViewGroup parent) {
+            LayoutInflater inf = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            public MyAdapter(Context context, int resource, int textViewResourceId,
-                             ArrayList<String> conNames) {
-                super(context, resource, textViewResourceId, conNames);
+            View row = inf.inflate(R.layout.liststyle, parent, false);
 
-            }
+            TextView tvName = (TextView) row.findViewById(R.id.tvNameMain);
+            TextView tvNumber = (TextView) row.findViewById(R.id.tvNumberMain);
+            TextView tvTime = (TextView) row.findViewById(R.id.tvTime);
+            TextView tvDate = (TextView) row.findViewById(R.id.tvDate);
+            TextView tvType = (TextView) row.findViewById(R.id.tvType);
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            tvName.setText(conNames.get(position));
+            tvNumber.setText(conNumbers.get(position));
+            tvTime.setText("( " + conTime.get(position) + "sec )");
+            tvDate.setText(conDate.get(position));
+            tvType.setText("( " + conType.get(position) + " )");
 
-                View row = setList(position, parent);
-                return row;
-            }
-
-            private View setList(int position, ViewGroup parent) {
-                LayoutInflater inf = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                View row = inf.inflate(R.layout.liststyle, parent, false);
-
-                TextView tvName = (TextView) row.findViewById(R.id.tvNameMain);
-                TextView tvNumber = (TextView) row.findViewById(R.id.tvNumberMain);
-                TextView tvTime = (TextView) row.findViewById(R.id.tvTime);
-                TextView tvDate = (TextView) row.findViewById(R.id.tvDate);
-                TextView tvType = (TextView) row.findViewById(R.id.tvType);
-
-                tvName.setText(conNames.get(position));
-                tvNumber.setText(conNumbers.get(position));
-                tvTime.setText("( " + conTime.get(position) + "sec )");
-                tvDate.setText(conDate.get(position));
-                tvType.setText("( " + conType.get(position) + " )");
-
-                return row;
-            }
+            return row;
         }
-
     }
+
+}

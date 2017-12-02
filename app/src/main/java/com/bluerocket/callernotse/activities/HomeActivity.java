@@ -29,6 +29,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.bluerocket.callernotse.R;
 import com.bluerocket.callernotse.adapters.RecyclerViewAdapter;
+import com.bluerocket.callernotse.callhitory.CallLogActivity;
 import com.bluerocket.callernotse.widget.Fab;
 import com.bluerocket.callernotse.fragments.AddNoteFragment;
 import com.bluerocket.callernotse.fragments.CallerNotesListFragment;

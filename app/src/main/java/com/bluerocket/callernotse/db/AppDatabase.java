@@ -5,9 +5,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.bluerocket.callernotse.callhitory.AddCallLogistoryModelDao;
+import com.bluerocket.callernotse.callhitory.CallLogModel;
 import com.bluerocket.callernotse.models.NoteModel;
 
-@Database(entities = {NoteModel.class}, version = 1, exportSchema = false)
+@Database(entities = {NoteModel.class, CallLogModel.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -26,5 +28,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract NoteModelDao itemAndPersonModel();
+    public abstract AddCallLogistoryModelDao callLogistoryModel();
 
 }

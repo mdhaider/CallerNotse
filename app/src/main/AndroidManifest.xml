@@ -28,13 +28,11 @@
             android:name=".activities.HomeActivity"
             android:theme="@style/HomeActivityTheme">
 
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".activities.ContactListActivity"
@@ -68,7 +66,7 @@
                 android:value="com.bluerocket.callernotse.activities.HomeActivity" />
         </activity>
         <activity
-            android:name=".activities.CallLogActivity"
+            android:name=".callhitory.CallLogActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
@@ -101,11 +99,6 @@
         </activity>
         <activity android:name=".UsageStatsDemo.UsageActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
