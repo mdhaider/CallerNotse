@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluerocket.callernotse.R;
-import com.bluerocket.callernotse.activities.HomeActivity;
 import com.bluerocket.callernotse.adapters.RecyclerViewAdapter;
 import com.bluerocket.callernotse.models.NoteModel;
 import com.bluerocket.callernotse.viewmodel.NoteListViewModel;
@@ -71,35 +70,6 @@ public class CallerNotesListFragment extends Fragment implements View.OnLongClic
         NoteModel noteModel = (NoteModel) v.getTag();
         viewModel.deleteItem(noteModel);
         return true;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean visible)
-    {
-        super.setUserVisibleHint(visible);
-        if (visible && isResumed())
-        {
-            onResume();
-        }
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        if (!getUserVisibleHint())
-        {
-            return;
-        }
-
-        HomeActivity mainActivity = (HomeActivity)getActivity();
-        mainActivity.fab.setImageResource(R.drawable.ic_add_white_24dp);
-        mainActivity.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNoteFragment()).commitAllowingStateLoss();
-            }
-        });
     }
 }
 
