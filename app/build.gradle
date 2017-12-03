@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    dataBinding.enabled = true
     defaultConfig {
         applicationId "com.bluerocket.callernotse"
         minSdkVersion 15

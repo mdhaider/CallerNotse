@@ -2,13 +2,13 @@ package com.bluerocket.callernotse.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,16 +18,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bluerocket.callernotse.R;
+import com.bluerocket.callernotse.callhitory.AddCallHistoryViewModel;
 import com.bluerocket.callernotse.callhitory.CallHistoryHelper;
-import com.bluerocket.callernotse.databinding.FragmentHomeBinding;
+import com.bluerocket.callernotse.callhitory.CallLogModel;
+import com.bluerocket.callernotse.callhitory.CallLogViewModel;
+import com.bluerocket.callernotse.db.AppDatabase;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -36,8 +36,6 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private TextView mPlusOneButton;
-    private FragmentHomeBinding mHomeBinding;
     private ArrayList<String> conNames;
     private ArrayList<String> conNumbers;
     private ArrayList<String> conTime;
@@ -47,8 +45,12 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_PERMISSION_SETTING = 101;
     private boolean sentToSettings = false;
     private SharedPreferences permissionStatus;
+    private AddCallHistoryViewModel addCallHistoryViewModel;
 
     private OnFragmentInteractionListener mListener;
+    private ArrayList<CallLogModel> arr;
+    private AppDatabase appDatabase;
+    private CallLogViewModel viewModel;
 
     public HomeFragment() {
     }
@@ -74,16 +76,21 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mHomeBinding = DataBindingUtil.inflate(
-                    inflater, R.layout.fragment_home, container, false);
-        View view = mHomeBinding.getRoot();
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         return view;
+
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        addCallHistoryViewModel = ViewModelProviders.of(this).get(AddCallHistoryViewModel.class);
+
 
         permissionStatus = getActivity().getSharedPreferences("permissionStatus", MODE_PRIVATE);
 
@@ -92,7 +99,10 @@ public class HomeFragment extends Fragment {
         conTime = new ArrayList<String>();
         conDate = new ArrayList<String>();
         conType = new ArrayList<String>();
+
+        arr=new ArrayList<>();
         checkPermssionForReadLogs();
+
     }
 
     public void onButtonPressed(Uri uri) {
@@ -133,35 +143,44 @@ public class HomeFragment extends Fragment {
                     .getString(curLog
                             .getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME));
             if (callName == null) {
-                conNames.add("Unknown");
-            } else
-                conNames.add(callName);
-
-            String callDate = curLog.getString(curLog
-                    .getColumnIndex(android.provider.CallLog.Calls.DATE));
-            SimpleDateFormat formatter = new SimpleDateFormat(
-                    "dd-MMM-yyyy HH:mm");
-            String dateString = formatter.format(new Date(Long
-                    .parseLong(callDate)));
-            conDate.add(dateString);
-
-            String callType = curLog.getString(curLog
-                    .getColumnIndex(android.provider.CallLog.Calls.TYPE));
-            if (callType.equals("1")) {
-                conType.add("Incoming");
-            } else if (callType.equals("2")) {
-                conType.add("Outgoing");
-            } else if (callType.equals("3")) {
-                conType.add("Missed");
-
-            } else {
-                conType.add("Rejected");
+                callName = "Unknown";
             }
-            String duration = curLog.getString(curLog
-                    .getColumnIndex(android.provider.CallLog.Calls.DURATION));
-            conTime.add(duration);
+
+                String callDate = curLog.getString(curLog
+                        .getColumnIndex(android.provider.CallLog.Calls.DATE));
+               /* SimpleDateFormat formatter = new SimpleDateFormat(
+                        "dd-MMM-yyyy HH:mm");
+                String dateString = formatter.format(new Date(Long
+                        .parseLong(callDate)));
+                conDate.add(dateString);*/
+
+                String callType = curLog.getString(curLog
+                        .getColumnIndex(android.provider.CallLog.Calls.TYPE));
+
+                switch (callType) {
+                    case "1":
+                        callType = "Incoming";
+                        break;
+                    case "2":
+                        callType = "Outgoing";
+                        break;
+                    case "3":
+                        callType = "Missed";
+                        break;
+                    default:
+                        callType = "Rejected";
+                        break;
+                }
+                String duration = curLog.getString(curLog
+                        .getColumnIndex(android.provider.CallLog.Calls.DURATION));
+                conTime.add(duration);
+
+
+
+                addCallHistoryViewModel.addCallLogs(new CallLogModel(callName, callNumber, callDate, callType, duration
+                ));
+            }
         }
-    }
 
     private void checkPermssionForReadLogs() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
@@ -214,7 +233,7 @@ public class HomeFragment extends Fragment {
                 builder.show();
             } else {
                 //just request the permission
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CONSTANT);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALL_LOG}, EXTERNAL_STORAGE_PERMISSION_CONSTANT);
             }
 
             SharedPreferences.Editor editor = permissionStatus.edit();
@@ -230,15 +249,16 @@ public class HomeFragment extends Fragment {
 
     private void proceedAfterPermission() {
         Cursor curLog= CallHistoryHelper.getAllCallLogs(getActivity().getContentResolver());
+
         setCallLogs(curLog);
 
-        Toast.makeText(getActivity().getBaseContext(), "We got the Storage Permission", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == EXTERNAL_STORAGE_PERMISSION_CONSTANT) {
+        switch (requestCode) {
+            case EXTERNAL_STORAGE_PERMISSION_CONSTANT:
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //The External Storage Write Permission is granted to you... Continue your left job...
                 proceedAfterPermission();
@@ -255,8 +275,6 @@ public class HomeFragment extends Fragment {
 
 
                             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALL_LOG}, EXTERNAL_STORAGE_PERMISSION_CONSTANT);
-
-
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -270,6 +288,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity().getBaseContext(),"Unable to get Permission",Toast.LENGTH_LONG).show();
                 }
             }
+            break;
         }
     }
 
@@ -277,11 +296,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PERMISSION_SETTING) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_SETTING:
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
                 //Got Permission
                 proceedAfterPermission();
             }
+            break;
         }
     }
 

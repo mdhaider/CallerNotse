@@ -137,7 +137,7 @@ public class CallReceiver extends PhoneCallReceiver {
 
             @Override
             protected Void doInBackground(final NoteModel... params) {
-                db.itemAndPersonModel().getAllNoteItems();
+            //    db.itemAndPersonModel().getAllNoteItems();
                 Log.d("all","doinbackgroudrunning");
                 return null;
             }

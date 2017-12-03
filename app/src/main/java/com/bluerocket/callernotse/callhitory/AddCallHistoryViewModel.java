@@ -5,7 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.os.AsyncTask;
 
 import com.bluerocket.callernotse.db.AppDatabase;
-import com.bluerocket.callernotse.models.NoteModel;
+
 
 public class AddCallHistoryViewModel extends AndroidViewModel {
 
@@ -18,11 +18,11 @@ public class AddCallHistoryViewModel extends AndroidViewModel {
 
     }
 
-    public void addBorrow(final NoteModel noteModel) {
-        new addAsyncTask(appDatabase).execute(noteModel);
+    public void addCallLogs(final CallLogModel callLogModel) {
+        new addAsyncTask(appDatabase).execute(callLogModel);
     }
 
-    private static class addAsyncTask extends AsyncTask<NoteModel, Void, Void> {
+    private static class addAsyncTask extends AsyncTask<CallLogModel, Void, Void> {
 
         private AppDatabase db;
 
@@ -31,10 +31,9 @@ public class AddCallHistoryViewModel extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(final NoteModel... params) {
-            db.itemAndPersonModel().addBorrow(params[0]);
+        protected Void doInBackground(CallLogModel... callLogModels) {
+            db.addCallLogistoryModelDao().addCallLogs(callLogModels[0]);
             return null;
         }
-
     }
 }

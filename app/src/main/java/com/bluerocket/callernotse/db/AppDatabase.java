@@ -28,6 +28,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract NoteModelDao itemAndPersonModel();
-    public abstract AddCallLogistoryModelDao callLogistoryModel();
+    public abstract AddCallLogistoryModelDao addCallLogistoryModelDao();
 
 }

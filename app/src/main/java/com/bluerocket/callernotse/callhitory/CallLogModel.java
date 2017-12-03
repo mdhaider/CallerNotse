@@ -14,16 +14,21 @@ public class CallLogModel {
     public int id;
     private String conName;
     private String conNumber;
-    private String conTime;
-    private String conDate;
     private String conType;
+    private String conDate;
 
-    public CallLogModel(String conName, String conNumber,String conType,String conDate,String conTime) {
+    public String getDuration() {
+        return duration;
+    }
+
+    private String duration;
+
+    public CallLogModel(String conName, String conNumber,String conDate,String conType,String duration) {
         this.conName = conName;
-        this.conNumber = conName;
+        this.conNumber = conNumber;
         this.conType = conType;
         this.conDate = conDate;
-        this.conTime = conTime;
+        this.duration = duration;
     }
     public String getConName() {
         return conName;
@@ -31,10 +36,6 @@ public class CallLogModel {
 
     public String getConNumber() {
         return conNumber;
-    }
-
-    public String getConTime() {
-        return conTime;
     }
 
     public String getConDate() {
